@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeQuest.GameFactory
+namespace CodeQuest.Game
 {
-    internal interface IGameFactory
+    internal class GameLogic
     {
     }
 }
