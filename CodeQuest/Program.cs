@@ -6,6 +6,10 @@ class Program
     {
         // implement interfaces
 
-        // start gameMenu
+        // create/load user
+
+        // start gameMenu in MenuController -- needs to choose game
+
+        // start gamecontroller with info from gameMenu
     }
 }
