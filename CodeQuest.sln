@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeQuest", "CodeQuest\CodeQuest.csproj", "{1209F78F-8091-43C6-8476-EFB771C30205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeQuest", "CodeQuest\CodeQuest.csproj", "{1209F78F-8091-43C6-8476-EFB771C30205}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeQuest.Tests", "CodeQuest.Tests\CodeQuest.Tests.csproj", "{CE7F03A8-0762-4156-9D26-FDED0357DDF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{1209F78F-8091-43C6-8476-EFB771C30205}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1209F78F-8091-43C6-8476-EFB771C30205}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1209F78F-8091-43C6-8476-EFB771C30205}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE7F03A8-0762-4156-9D26-FDED0357DDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE7F03A8-0762-4156-9D26-FDED0357DDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE7F03A8-0762-4156-9D26-FDED0357DDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE7F03A8-0762-4156-9D26-FDED0357DDF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

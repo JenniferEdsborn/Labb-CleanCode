@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.Interfaces
 {
-    internal interface IPlayer
+    public interface IPlayer
     {
+        string Name { get; }
+        bool Equals(object name);
+        int GetHashCode();
     }
 }

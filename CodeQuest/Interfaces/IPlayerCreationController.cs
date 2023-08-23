@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.Interfaces
 {
-    public interface IGameFactory
+    public interface IPlayerCreationController
     {
     }
 }

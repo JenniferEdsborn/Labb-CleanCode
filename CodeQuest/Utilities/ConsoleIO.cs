@@ -1,12 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CodeQuest.Interfaces;
 
 namespace CodeQuest.Utilities
 {
-    internal class ConsoleIO
+    public class ConsoleIO : IConsoleIO
     {
+        private ErrorMessages errorMessages = new ErrorMessages();
+
+        public void PrintString(string output)
+        {
+            Console.WriteLine(output);
+        }
+
+        public string GetUserName()
+        {
+            // get all player names
+            // check if name already exist
+            // error message if it exist
+
+            return Console.ReadLine();
+        }
+
+        public string GetUserGuess(string userGuess)
+        {
+            return Console.ReadLine();
+        }
+
+        public bool IsNumber(string userInput)
+        {
+            return Int32.TryParse(userInput, out _);
+        }
+
+        public int ConvertToInt(string userInput)
+        {
+            if (IsNumber(userInput))
+            {
+                return Convert.ToInt32(userInput);
+            }
+
+            errorMessages.CouldNotConvertToInt(userInput);
+            return 0;
+        }
+
+        public void PressAnyKey()
+        {
+            Console.ReadKey();
+        }
+
+        public void Clear()
+        {
+            Console.Clear();
+        }
+
+        public void Exit()
+        {
+            Environment.Exit(0);
+        }
     }
 }

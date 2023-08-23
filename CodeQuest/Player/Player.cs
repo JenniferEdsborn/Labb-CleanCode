@@ -1,18 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CodeQuest.Interfaces;
 
 namespace CodeQuest.Player
 {
-    internal class Player
+    public class Player : IPlayer
     {
+        public string Name { get; private set; }
+        public PlayerData PlayerData = new PlayerData();
+
+        public Player(string name)
+        {
+            Name = name;
+        }
+
+        public override bool Equals(Object name)
+        {
+            return Name.Equals(((Player)name).Name);
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode();
+        }
     }
 
-    // player statistics - array
-    // player score - array
-
-    // load player data
-    // save player data
+    // skapa fler players
 }

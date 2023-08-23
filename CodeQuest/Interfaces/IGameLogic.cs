@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.Interfaces
 {
-    internal interface GameLogic
+    public interface IGameLogic
     {
     }
 }

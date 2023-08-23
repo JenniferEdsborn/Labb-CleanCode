@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.Interfaces
 {
-    internal interface IGameController
+    public interface IGameController
     {
     }
 }

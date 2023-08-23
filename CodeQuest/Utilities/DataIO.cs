@@ -4,9 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeQuest.Interfaces
+namespace CodeQuest.Utilities
 {
-    public interface IGameFactory
+    public class DataIO
     {
     }
+
+    // streamreader
+    // streamwriter
+
+    // observer
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.GameFactory
 {
-    internal class GameFactory
+    public class GameFactory
     {
     }
 
