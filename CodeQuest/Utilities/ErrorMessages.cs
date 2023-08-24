@@ -8,14 +8,19 @@ namespace CodeQuest.Utilities
 {
     public class ErrorMessages
     {
-        public string CouldNotConvertToInt(string userGuess)
+        public string CouldNotConvertToInt()
         {
             return "ERROR! Could not convert input to int.";
         }
 
-        public string UserNameAlreadyExist(string userName)
+        public string UserNameAlreadyExist()
         {
             return "ERROR! User name already exist.";
+        }
+
+        public string GuessNotValid()
+        {
+            return "ERROR! Guess is not valid.";
         }
 
 

@@ -8,5 +8,9 @@ namespace CodeQuest.GameFactory
 {
     public class MasterMindFactory : IGameFactory
     {
+        public IGame CreateGame()
+        {
+            return new MasterMind();
+        }
     }
 }
