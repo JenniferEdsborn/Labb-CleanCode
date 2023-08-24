@@ -11,7 +11,7 @@ namespace CodeQuest.GameFactory
             string _userGuess = userGuess.ToString();
             if (IsValidInput(_userGuess) && HasUniqueCharacters(_userGuess))
             {
-                GenerateFeedBack(_userGuess);
+                GenerateFeedback(_userGuess);
             }
             errorMessages.GuessNotValid();
         }
@@ -37,7 +37,7 @@ namespace CodeQuest.GameFactory
         }
 
 
-        public string GenerateFeedBack(string input)
+        public string GenerateFeedback(string input)
         {
             return "";
         }
@@ -61,59 +61,58 @@ namespace CodeQuest.GameFactory
 
 
 
+        //private bool playOn = true;
 
-        private bool playOn = true;
+        //public void Start()
+        //{
+        //    Console.WriteLine("Enter your user name:\n");
+        //    string name = Console.ReadLine();
 
-        public void Start()
-        {
-            Console.WriteLine("Enter your user name:\n");
-            string name = Console.ReadLine();
+        //    while (playOn)
+        //    {
+        //        string goal = MakeGoal();
 
-            while (playOn)
-            {
-                string goal = MakeGoal();
+        //        Console.WriteLine("New game:\n");
+        //        Console.WriteLine("For practice, number is: " + goal + "\n");
+        //        string guess = Console.ReadLine();
 
-                Console.WriteLine("New game:\n");
-                Console.WriteLine("For practice, number is: " + goal + "\n");
-                string guess = Console.ReadLine();
+        //        int nGuess = 1;
+        //        string bbcc = CheckBC(goal, guess);
+        //        Console.WriteLine(bbcc + "\n");
 
-                int nGuess = 1;
-                string bbcc = CheckBC(goal, guess);
-                Console.WriteLine(bbcc + "\n");
+        //        while (bbcc != "BBBB,")
+        //        {
+        //            nGuess++;
+        //            guess = Console.ReadLine();
+        //            Console.WriteLine(guess + "\n");
+        //            bbcc = CheckBC(goal, guess);
+        //            Console.WriteLine(bbcc + "\n");
+        //        }
 
-                while (bbcc != "BBBB,")
-                {
-                    nGuess++;
-                    guess = Console.ReadLine();
-                    Console.WriteLine(guess + "\n");
-                    bbcc = CheckBC(goal, guess);
-                    Console.WriteLine(bbcc + "\n");
-                }
+        //        StreamWriter output = new StreamWriter("result.txt", append: true);
+        //        output.WriteLine(name + "#&#" + nGuess);
+        //        output.Close();
+        //        ShowTopList();
+        //        Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
+        //        string answer = Console.ReadLine();
 
-                StreamWriter output = new StreamWriter("result.txt", append: true);
-                output.WriteLine(name + "#&#" + nGuess);
-                output.Close();
-                ShowTopList();
-                Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
-                string answer = Console.ReadLine();
+        //        if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
+        //        {
+        //            playOn = false;
+        //        }
+        //    }
+        //}
 
-                if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-                {
-                    playOn = false;
-                }
-            }
-        }
+        //public void Play()
+        //{
+        //    Start();
+        //}
 
-        public void Play()
-        {
-            Start();
-        }
+        //public void End()
+        //{
+        //    // Cleanup or post-game actions if needed
+        //}
 
-        public void End()
-        {
-            // Cleanup or post-game actions if needed
-        }
-
-        // ... Rest of the methods like MakeGoal, CheckBC, and ShowTopList ...
+        //// ... Rest of the methods like MakeGoal, CheckBC, and ShowTopList ...
     }
 }

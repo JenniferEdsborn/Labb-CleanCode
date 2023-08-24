@@ -37,7 +37,7 @@ namespace CodeQuest.Utilities
                 return Convert.ToInt32(userInput);
             }
 
-            errorMessages.CouldNotConvertToInt(userInput);
+            //errorMessages.CouldNotConvertToInt(userInput);
             return 0;
         }
 

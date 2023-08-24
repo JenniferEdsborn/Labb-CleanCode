@@ -6,8 +6,7 @@ namespace MooGame
 {
     class MainClass
     {
-
-        public static void Main(string[] args)
+        public void OriginalCode()
         {
 
             bool playOn = true;
@@ -160,4 +159,5 @@ namespace MooGame
             return Name.GetHashCode();
         }
     }
+}
 }

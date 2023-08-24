@@ -5,7 +5,7 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeQuest", "CodeQuest\CodeQuest.csproj", "{1209F78F-8091-43C6-8476-EFB771C30205}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeQuest.Tests", "CodeQuest.Tests\CodeQuest.Tests.csproj", "{CE7F03A8-0762-4156-9D26-FDED0357DDF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CodeQuest.Tests", "CodeQuest.Tests\CodeQuest.Tests.csproj", "{CE7F03A8-0762-4156-9D26-FDED0357DDF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

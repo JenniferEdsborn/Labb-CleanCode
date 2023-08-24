@@ -12,8 +12,8 @@
         public void PlayGame()
         {
             IGame game = _gameFactory.CreateGame();
-            game.Play();
-            game.End();
+            //game.Play();
+            //game.End();
         }
 
 

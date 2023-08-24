@@ -2,9 +2,9 @@
 {
     public interface IGame
     {
-        void CheckUserGuess();
+        void CheckUserGuess(int userGuess);
 
-        string GenerateFeedback();
+        string GenerateFeedback(string input);
 
         void WinGame();
 
