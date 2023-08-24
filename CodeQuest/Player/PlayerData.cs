@@ -8,9 +8,15 @@ namespace CodeQuest.Player
 {
     public class PlayerData
     {
+        public string Name { get; private set; }
         public int NumberOfGames { get; set; }
         public int NumberOfGuesses { get; set; }
         public Dictionary<string,int> GameScores = new Dictionary<string,int>();
+
+        public PlayerData(string name)
+        {
+            Name = name;
+        }
 
         public void AddGameToScoreBoard(string nameOfGame, int gameScore)
         {

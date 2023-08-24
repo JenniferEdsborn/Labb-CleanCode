@@ -6,12 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeQuest.GameFactory
 {
-    public class GameFactory
+    public class MasterMindFactory : IGameFactory
     {
     }
-
-    // scoreboard
-    // int magicNumber
-    // int userGuess
-    // etc.
 }
