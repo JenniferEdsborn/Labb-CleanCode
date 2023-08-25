@@ -1,26 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CodeQuest.GameFactory;
+using CodeQuest.Utilities;
 
-namespace CodeQuest.GameFactory
+public class MasterMind : IGame
 {
-    public class MasterMind : IGame
+    ErrorMessages errorMessages = new ErrorMessages();
+
+    public string GenerateMagicNumber()
     {
-        public void CheckUserGuess(int userGuess)
+        Random randomGenerator = new Random();
+        string magicNumber = "";
+        for (int i = 0; i < 4; i++)
         {
-            throw new NotImplementedException();
+            int randomDigit = randomGenerator.Next(6);
+            magicNumber += randomDigit.ToString();
         }
+        return magicNumber;
+    }
 
-        public string GenerateFeedback(string userGuess)
+    public void CheckUserGuess(int userGuess, int magicNumber)
+    {
+        string _userGuess = userGuess.ToString();
+        if (IsValidInput(_userGuess))
         {
-            throw new NotImplementedException();
+            GenerateFeedback(_userGuess, magicNumber);
         }
+        errorMessages.GuessNotValid();
+    }
 
-        public void WinGame()
+    public bool IsValidInput(string userGuess)
+    {
+        return userGuess.Length == 4;
+    }
+
+    public string GenerateFeedback(string userGuess, int magicNumber)
+    {
+        string _magicNumber = magicNumber.ToString();
+        int cows = 0, bulls = 0;
+
+        for (int i = 0; i < 4; i++)
         {
-            throw new NotImplementedException();
+            for (int j = 0; j < 4; j++)
+            {
+                if (_magicNumber[i] == userGuess[j])
+                {
+                    if (i == j)
+                    {
+                        bulls++;
+                    }
+                    else
+                    {
+                        cows++;
+                    }
+                }
+            }
         }
+        return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+    }
+
+    public string GetGameName()
+    {
+        return "MasterMind";
+    }
+
+    public string GetInstructions()
+    {
+        return "MasterMind game instructions.";
     }
 }

@@ -79,5 +79,15 @@ namespace CodeQuest.GameFactory
             }
             return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
+
+        public string GetGameName()
+        {
+            return "MooGame";
+        }
+
+        public string GetInstructions()
+        {
+            return "MooGame game instructions.";
+        }
     }
 }

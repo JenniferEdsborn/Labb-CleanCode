@@ -23,6 +23,11 @@ namespace CodeQuest.Utilities
             return "ERROR! Guess is not valid.";
         }
 
+        public string InvalidInput()
+        {
+            return "ERROR! Input is not valid.";
+        }
+
 
 
         //public string ErrorCode;
