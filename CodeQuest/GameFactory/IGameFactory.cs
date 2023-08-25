@@ -13,7 +13,8 @@ namespace CodeQuest.GameFactory
         // Kommer ha metod, exempelvis CreateGame(); som returnar en IGame object
     }
 
-    // scoreboard
+    //
+    // 
     // int magicNumber
     // int userGuess
     // etc.

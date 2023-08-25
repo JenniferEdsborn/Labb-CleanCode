@@ -1,36 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeQuest.Player
+﻿namespace CodeQuest.Player
 {
     public class PlayerData
     {
         public string Name { get; private set; }
-        public int NumberOfGames { get; set; }
-        public int NumberOfGuesses { get; set; }
-        public Dictionary<string,int> GameScores = new Dictionary<string,int>();
+        private int NumberOfGames { get; set; }
+        private int NumberOfGuesses { get; set; }
+        private Dictionary<string, int> GameScores = new Dictionary<string, int>();
 
         public PlayerData(string name)
         {
             Name = name;
         }
 
-        public void AddGameToScoreBoard(string nameOfGame, int gameScore)
+        public void AddGameToScoreboard(string gameTitle, int gameScore)
         {
-            if (GameScores.ContainsKey(nameOfGame))
+            if (GameScores.ContainsKey(gameTitle))
             {
-                GameScores[nameOfGame] += gameScore;
+                GameScores[gameTitle] += gameScore;
             }
             else
             {
-                GameScores.Add(nameOfGame, 1);
+                GameScores.Add(gameTitle, 1);
             }
         }
 
-        public Dictionary<string,int> DisplayScoreBoard()
+        public IReadOnlyDictionary<string, int> GetScoreboard()
         {
             return GameScores;
         }
