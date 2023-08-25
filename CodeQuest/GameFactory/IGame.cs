@@ -2,12 +2,11 @@
 {
     public interface IGame
     {
-        void CheckUserGuess(int userGuess);
+        void CheckUserGuess(int userGuess, int magicNumber);
 
-        string GenerateFeedback(string input);
+        string GenerateFeedback(string input, int magicNumber);
+        string GenerateMagicNumber();
+        bool IsValidInput(string userGuess);
 
-        void WinGame();
-
-        // Defines the common methods that all game objects should implement, just as mentioned before.
     }
 }

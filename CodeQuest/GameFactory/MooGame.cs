@@ -6,26 +6,44 @@ namespace CodeQuest.GameFactory
     {
         ErrorMessages errorMessages = new ErrorMessages();
 
-        public void CheckUserGuess(int userGuess)
+        public string GenerateMagicNumber()
+        {
+            Random randomGenerator = new Random();
+            string magicNumber = "";
+            for (int i = 0; i < 4; i++)
+            {
+                int random = randomGenerator.Next(10);
+                string randomDigit = "" + random;
+                while (magicNumber.Contains(randomDigit))
+                {
+                    random = randomGenerator.Next(10);
+                    randomDigit = "" + random;
+                }
+                magicNumber = magicNumber + randomDigit;
+            }
+            return magicNumber;
+        }
+
+        public void CheckUserGuess(int userGuess, int magicNumber)
         {
             string _userGuess = userGuess.ToString();
             if (IsValidInput(_userGuess) && HasUniqueCharacters(_userGuess))
             {
-                GenerateFeedback(_userGuess);
+                GenerateFeedback(_userGuess, magicNumber);
             }
             errorMessages.GuessNotValid();
         }
 
-        private bool IsValidInput(string input)
+        public bool IsValidInput(string userGuess)
         {
-            return input.Length == 4;
+            return userGuess.Length == 4;
         }
 
-        private bool HasUniqueCharacters(string input)
+        private bool HasUniqueCharacters(string userGuess)
         {
             HashSet<char> uniqueCharacters = new HashSet<char>();
 
-            foreach (char c in input)
+            foreach (char c in userGuess)
             {
                 if (uniqueCharacters.Contains(c))
                 {
@@ -37,82 +55,29 @@ namespace CodeQuest.GameFactory
         }
 
 
-        public string GenerateFeedback(string input)
+        public string GenerateFeedback(string userGuess, int magicNumber)
         {
-            return "";
+            string _magicNumber = magicNumber.ToString();
+            int cows = 0, bulls = 0;
+
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    if (_magicNumber[i] == userGuess[j])
+                    {
+                        if (i == j)
+                        {
+                            bulls++;
+                        }
+                        else
+                        {
+                            cows++;
+                        }
+                    }
+                }
+            }
+            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
         }
-
-        public void WinGame()
-        {
-            Console.WriteLine("Conglaturation! You have completed a great game.");
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //private bool playOn = true;
-
-        //public void Start()
-        //{
-        //    Console.WriteLine("Enter your user name:\n");
-        //    string name = Console.ReadLine();
-
-        //    while (playOn)
-        //    {
-        //        string goal = MakeGoal();
-
-        //        Console.WriteLine("New game:\n");
-        //        Console.WriteLine("For practice, number is: " + goal + "\n");
-        //        string guess = Console.ReadLine();
-
-        //        int nGuess = 1;
-        //        string bbcc = CheckBC(goal, guess);
-        //        Console.WriteLine(bbcc + "\n");
-
-        //        while (bbcc != "BBBB,")
-        //        {
-        //            nGuess++;
-        //            guess = Console.ReadLine();
-        //            Console.WriteLine(guess + "\n");
-        //            bbcc = CheckBC(goal, guess);
-        //            Console.WriteLine(bbcc + "\n");
-        //        }
-
-        //        StreamWriter output = new StreamWriter("result.txt", append: true);
-        //        output.WriteLine(name + "#&#" + nGuess);
-        //        output.Close();
-        //        ShowTopList();
-        //        Console.WriteLine("Correct, it took " + nGuess + " guesses\nContinue?");
-        //        string answer = Console.ReadLine();
-
-        //        if (answer != null && answer != "" && answer.Substring(0, 1) == "n")
-        //        {
-        //            playOn = false;
-        //        }
-        //    }
-        //}
-
-        //public void Play()
-        //{
-        //    Start();
-        //}
-
-        //public void End()
-        //{
-        //    // Cleanup or post-game actions if needed
-        //}
-
-        //// ... Rest of the methods like MakeGoal, CheckBC, and ShowTopList ...
     }
 }
