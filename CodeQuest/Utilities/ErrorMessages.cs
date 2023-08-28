@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeQuest.Utilities
+﻿namespace CodeQuest.Utilities
 {
     public class ErrorMessages
     {
@@ -28,6 +22,10 @@ namespace CodeQuest.Utilities
             return "ERROR! Input is not valid.";
         }
 
+        public string SaveNotSuccessful()
+        {
+            return "ERROR! The player data was not saved.";
+        }
 
 
         //public string ErrorCode;
