@@ -5,9 +5,9 @@
         void CheckUserGuess(int userGuess, int magicNumber);
 
         string GenerateFeedback(string input, int magicNumber);
-        string GenerateMagicNumber();
+        int GenerateMagicNumber();
         bool IsValidInput(string userGuess);
         string GetGameName();
-        string GetInstructions();
+        string[] GetInstructions();
     }
 }

@@ -1,36 +1,67 @@
-﻿using CodeQuest.Interfaces; 
+﻿using CodeQuest.GameFactory;
+using CodeQuest.Interfaces;
+using CodeQuest.Utilities;
 
 namespace CodeQuest.Game
 {
     public class MenuController : IMenuController
     {
         IConsoleIO io;
+        ErrorMessages errorMessages = new ErrorMessages();
+        MenuUtils menuUtils;
 
         private readonly string[] menu;
-        private readonly string[] games;
+        private readonly List<string> games;
+
+        private Dictionary<int, Action> menuActions = new Dictionary<int, Action>();
 
         public MenuController(IConsoleIO io)
         {
             this.io = io;
             menu = new string[] { "Choose Game", "Show Scoreboard", "Change Player", "Settings", "Exit" };
-            games = new string[] { "Moo-Game", "MasterMind" };
+            games = GameClassLocator.GetAvailableGames();
+            menuUtils = new MenuUtils(io);
+            InitializeMenuActions();
         }
 
-        private void InitiatePlayerCreation()
+        private void InitializeMenuActions()
         {
-            // create new player
-            // load player
+            menuActions.Add(1, ChooseGame);
+            menuActions.Add(2, ShowScoreboard);
+            menuActions.Add(3, InitiatePlayerCreation);
+            menuActions.Add(4, Settings);
+            menuActions.Add(5, io.Exit);
         }
 
         public void DisplayMenu()
         {
-            // iterate menu
-            // ITERATOR design pattern
+            var menuIterator = new MenuIterator(menu);
+            menuUtils.PrintMenuOptions(menuIterator);
+
+            int menuChoice = menuUtils.GetValidMenuChoice(menu);
+            ProcessMenuChoice(menuChoice);
         }
 
         private void ChooseGame()
         {
-            // iterate through games
+            var menuIterator = new MenuIterator(games.ToArray());
+            menuUtils.PrintMenuOptions(menuIterator);
+
+            // get game choice, create game from factory
+
+            StartGame(); // start the game
+        }
+
+        private void ProcessMenuChoice(int choice)
+        {
+            if (menuActions.ContainsKey(choice))
+            {
+                menuActions[choice].Invoke();
+            }
+            else
+            {
+                io.PrintString(errorMessages.InvalidInput());
+            }
         }
 
         private void StartGame()
@@ -47,10 +78,10 @@ namespace CodeQuest.Game
         {
 
         }
-
-        private void Exit()
+        private void InitiatePlayerCreation()
         {
-            io.Exit();
+            // create new player
+            // load player
         }
     }
 }

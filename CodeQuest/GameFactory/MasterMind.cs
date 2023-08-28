@@ -5,7 +5,7 @@ public class MasterMind : IGame
 {
     ErrorMessages errorMessages = new ErrorMessages();
 
-    public string GenerateMagicNumber()
+    public int GenerateMagicNumber()
     {
         Random randomGenerator = new Random();
         string magicNumber = "";
@@ -14,7 +14,8 @@ public class MasterMind : IGame
             int randomDigit = randomGenerator.Next(6);
             magicNumber += randomDigit.ToString();
         }
-        return magicNumber;
+        int parsedMagicNumber = int.Parse(magicNumber);
+        return parsedMagicNumber;
     }
 
     public void CheckUserGuess(int userGuess, int magicNumber)
@@ -62,8 +63,11 @@ public class MasterMind : IGame
         return "MasterMind";
     }
 
-    public string GetInstructions()
+    public string[] GetInstructions()
     {
-        return "MasterMind game instructions.";
+        string[] instructions = new string[] { "Guess the magic number!", "Digits 0-5, non-unique numbers are allowed.",
+                "B = right digit, right place", "C = right digit, wrong place", ", = digit not part of sequence" };
+
+        return instructions;
     }
 }

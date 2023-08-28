@@ -1,6 +1,7 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
 using CodeQuest.Utilities;
+using System.ComponentModel.Design;
 
 namespace CodeQuest.Game
 {
@@ -10,73 +11,81 @@ namespace CodeQuest.Game
         IGameLogic gameLogic;
         IGame game;
         ErrorMessages errorMessages = new ErrorMessages();
-
+        MenuUtils menuUtils;
+        
         private readonly string[] gameMenu;
+        private Dictionary<int, Action> menuActions = new Dictionary<int, Action>();
 
         public GameController(IConsoleIO io, IGame game)
         {
             this.io = io;
             this.game = game;
-            gameLogic = new GameLogic(game);
+            gameLogic = new GameLogic(game, io);
+            menuUtils = new MenuUtils(io);
 
             gameMenu = new string[] { "Start Game", "Help", "Back" };
+            InitializeMenuActions();
+        }
 
-            // populate gameMenu
-            // create the game from factory
+        private void InitializeMenuActions()
+        {
+            menuActions.Add(1, StartGame);
+            menuActions.Add(2, Help);
+            menuActions.Add(3, Back);
         }
 
         public void GameMenu()
         {
             io.PrintString(game.GetGameName());
 
-            for (int i = 0; i < gameMenu.Length; i++)
-            {
-                io.PrintString($"{i + 1}{gameMenu[i]}");
-            }
+            var menuIterator = new MenuIterator(gameMenu);
+            menuUtils.PrintMenuOptions(menuIterator);
 
-
-            // Error handling needed?
-
-            int menuChoice = io.ConvertToInt(io.GetUserInput());
-            while (true)
-            {
-                switch (menuChoice)
-                {
-                    case 1:
-                        StartGame();
-                        break;
-                    case 2:
-                        Help();
-                        break;
-                    case 3:
-                        return;
-                    default:
-                        io.PrintString(errorMessages.InvalidInput());
-                        break;
-                }
-            }
+            int menuChoice = menuUtils.GetValidMenuChoice(gameMenu);
+            ProcessMenuChoice(menuChoice);
         }
 
-        public void Help()
+        private void ProcessMenuChoice(int choice)
         {
-            io.PrintString(game.GetInstructions());
+            if (menuActions.ContainsKey(choice))
+            {
+                menuActions[choice].Invoke();
+            }
+            else
+            {
+                io.PrintString(errorMessages.InvalidInput());
+            }
         }
 
         public void StartGame()
         {
-            int number = gameLogic.GenerateMagicNumber();
-            int userGuess = 1111;
+            int magicNumber = gameLogic.GenerateMagicNumber();
+            int userGuess = 0;
 
-            while (userGuess != number)
+            while (userGuess != magicNumber) // måste jämföras - så måste ha ett int-värde
             {
                 gameLogic.GetUserGuess();
-                gameLogic.CheckUserGuess();
-                gameLogic.GenerateFeedback();
+                if (// game logic is ok, number is 4 digits)
+                    // userGuess = gameLogic.CheckUserGuess();
+                    // >> generate feedback
+                // errorMessage.NoWay();
+                gameLogic.CheckUserGuess(); // return the int
+                gameLogic.GenerateFeedback(); // on the int
             }
+
             gameLogic.WinGame();
             return;
+        }
 
-            // game logic
+        public void Help()
+        {
+            var menuIterator = new MenuIterator(game.GetInstructions());
+            menuUtils.PrintMenuOptions(menuIterator);
+        }
+
+        public void Back()
+        {
+            return;
         }
     }
 }

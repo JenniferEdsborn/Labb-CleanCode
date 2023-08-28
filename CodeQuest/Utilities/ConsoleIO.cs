@@ -20,11 +20,6 @@ namespace CodeQuest.Utilities
             return Console.ReadLine();
         }
 
-        public string GetUserGuess(string userGuess)
-        {
-            return Console.ReadLine();
-        }
-
         public string GetUserInput()
         {
             return Console.ReadLine();

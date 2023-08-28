@@ -6,7 +6,7 @@ namespace CodeQuest.GameFactory
     {
         ErrorMessages errorMessages = new ErrorMessages();
 
-        public string GenerateMagicNumber()
+        public int GenerateMagicNumber()
         {
             Random randomGenerator = new Random();
             string magicNumber = "";
@@ -21,7 +21,8 @@ namespace CodeQuest.GameFactory
                 }
                 magicNumber = magicNumber + randomDigit;
             }
-            return magicNumber;
+            int parsedMagicNumber = int.Parse(magicNumber);
+            return parsedMagicNumber;
         }
 
         public void CheckUserGuess(int userGuess, int magicNumber)
@@ -85,9 +86,12 @@ namespace CodeQuest.GameFactory
             return "MooGame";
         }
 
-        public string GetInstructions()
+        public string[] GetInstructions()
         {
-            return "MooGame game instructions.";
+            string[] instructions = new string[] { "Guess the magic number!", "Digits 0-9, only unique numbers.",
+                "B = right digit, right place", "C = right digit, wrong place", ", = digit not part of sequence" };
+
+            return instructions;
         }
     }
 }

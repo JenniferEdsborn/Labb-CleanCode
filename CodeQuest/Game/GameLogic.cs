@@ -1,40 +1,45 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
+using CodeQuest.Utilities;
 
 namespace CodeQuest.Game
 {
     public class GameLogic : IGameLogic
     {
-        private readonly int correctNumber;
         private int guesses;
         private int score;
-        Random random;
-        IGame game;
 
-        public GameLogic(IGame game)
+        IGame game;
+        IConsoleIO io;
+
+        public GameLogic(IGame game, IConsoleIO io)
         {
             this.game = game;
-            random = new Random();
-
-            correctNumber = 1234; // generate random number
+            this.io = io;
             // create the dictionarystuff to PlayerData
         }
 
-
-
         public int GenerateMagicNumber()
         {
-            return 0;
+            int magicNumber = game.GenerateMagicNumber();
+            return magicNumber;
         }
 
-        public void GetUserGuess()
+        public string GetUserGuess()
         {
+            string userGuess = io.GetUserInput();
 
+            return CheckUserGuess(userGuess);
         }
 
-        public void CheckUserGuess()
+        public string CheckUserGuess(string userGuess)
         {
+            if (io.IsNumber(userGuess))
+            {
+                io.ConvertToInt(userGuess);
+            }
 
+            return "";
         }
 
         public string GenerateFeedback()
