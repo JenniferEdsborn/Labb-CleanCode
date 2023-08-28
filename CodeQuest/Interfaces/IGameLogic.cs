@@ -8,10 +8,6 @@ namespace CodeQuest.Interfaces
 {
     public interface IGameLogic
     {
-        string CheckUserGuess();
-        string GenerateFeedback();
-        int GenerateMagicNumber();
-        string GetUserGuess();
-        void WinGame();
+        void RunGameLoop();
     }
 }

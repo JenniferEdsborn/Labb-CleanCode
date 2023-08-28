@@ -3,8 +3,6 @@ using CodeQuest.Utilities;
 
 public class MasterMind : IGame
 {
-    ErrorMessages errorMessages = new ErrorMessages();
-
     public int GenerateMagicNumber()
     {
         Random randomGenerator = new Random();
@@ -16,16 +14,6 @@ public class MasterMind : IGame
         }
         int parsedMagicNumber = int.Parse(magicNumber);
         return parsedMagicNumber;
-    }
-
-    public void CheckUserGuess(int userGuess, int magicNumber)
-    {
-        string _userGuess = userGuess.ToString();
-        if (IsValidInput(_userGuess))
-        {
-            GenerateFeedback(_userGuess, magicNumber);
-        }
-        errorMessages.GuessNotValid();
     }
 
     public bool IsValidInput(string userGuess)

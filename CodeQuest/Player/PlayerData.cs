@@ -12,15 +12,15 @@
             Name = name;
         }
 
-        public void AddGameToScoreboard(string gameTitle, int gameScore)
+        public void AddGameToScoreboard(string gameTitle, int guesses)
         {
             if (GameScores.ContainsKey(gameTitle))
             {
-                GameScores[gameTitle] += gameScore;
+                GameScores[gameTitle]+= guesses;
             }
             else
             {
-                GameScores.Add(gameTitle, 1);
+                GameScores.Add(gameTitle, guesses);
             }
         }
 
@@ -32,6 +32,11 @@
         public void UpdateGuesses(int guesses)
         {
             NumberOfGuesses += guesses;
+            NumberOfGames++;
+        }
+
+        public void UpdateNumberOfGames()
+        {
             NumberOfGames++;
         }
 

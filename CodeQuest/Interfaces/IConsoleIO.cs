@@ -15,7 +15,7 @@ namespace CodeQuest.Interfaces
         string GetUserName();
         bool IsNumber(string userInput);
         void PressAnyKey();
+        void PrintPrompt();
         void PrintString(string output);
-        void PrintString(object value);
     }
 }

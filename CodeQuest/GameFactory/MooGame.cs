@@ -1,11 +1,7 @@
-﻿using CodeQuest.Utilities;
-
-namespace CodeQuest.GameFactory
+﻿namespace CodeQuest.GameFactory
 {
     public class MooGame : IGame
     {
-        ErrorMessages errorMessages = new ErrorMessages();
-
         public int GenerateMagicNumber()
         {
             Random randomGenerator = new Random();
@@ -25,19 +21,10 @@ namespace CodeQuest.GameFactory
             return parsedMagicNumber;
         }
 
-        public void CheckUserGuess(int userGuess, int magicNumber)
-        {
-            string _userGuess = userGuess.ToString();
-            if (IsValidInput(_userGuess) && HasUniqueCharacters(_userGuess))
-            {
-                GenerateFeedback(_userGuess, magicNumber);
-            }
-            errorMessages.GuessNotValid();
-        }
-
         public bool IsValidInput(string userGuess)
         {
-            return userGuess.Length == 4;
+            if (userGuess.Length == 4 && HasUniqueCharacters(userGuess))
+                return true; return false;
         }
 
         private bool HasUniqueCharacters(string userGuess)
@@ -54,7 +41,6 @@ namespace CodeQuest.GameFactory
             }
             return true;
         }
-
 
         public string GenerateFeedback(string userGuess, int magicNumber)
         {

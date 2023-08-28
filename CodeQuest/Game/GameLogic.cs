@@ -1,62 +1,75 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
+using CodeQuest.Player;
 using CodeQuest.Utilities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CodeQuest.Game
 {
     public class GameLogic : IGameLogic
     {
-        private int guesses;
-        private int score;
+        private int guesses = 0;
 
         IGame game;
         IConsoleIO io;
 
-        public GameLogic(IGame game, IConsoleIO io)
+        PlayerData playerData;
+        ErrorMessages errorMessages = new ErrorMessages();
+
+        public GameLogic(IGame game, IConsoleIO io, PlayerData playerData)
         {
             this.game = game;
             this.io = io;
-            // create the dictionarystuff to PlayerData
+            this.playerData = playerData;
         }
 
-        public int GenerateMagicNumber()
+        public void RunGameLoop()
         {
             int magicNumber = game.GenerateMagicNumber();
-            return magicNumber;
-        }
+            int parsedUserGuess = 0;
 
-        public string GetUserGuess()
-        {
-            string userGuess = io.GetUserInput();
-
-            return CheckUserGuess(userGuess);
-        }
-
-        public string CheckUserGuess(string userGuess)
-        {
-            if (io.IsNumber(userGuess))
+            while (parsedUserGuess != magicNumber)
             {
-                io.ConvertToInt(userGuess);
+                io.PrintPrompt();
+                string userGuess = io.GetUserInput();
+                if (CheckUserGuess(userGuess))
+                {
+                    guesses++;
+                    parsedUserGuess = io.ConvertToInt(userGuess);
+                    io.PrintString(game.GenerateFeedback(userGuess, magicNumber));
+                }
+                else
+                {
+                    io.PrintString(errorMessages.GuessNotValid());
+                    continue;
+                }
             }
 
-            return "";
+            WinGame();
         }
 
-        public string GenerateFeedback()
+        private bool CheckUserGuess(string userGuess)
         {
-            // cows and bulls
-
-            return "";
+            if (io.IsNumber(userGuess) && game.IsValidInput(userGuess))
+            {
+                return true;
+            }
+            return false;
         }
 
-        public void WinGame()
+        private void WinGame()
         {
-            // update guesses & no of games
-            // update GameScore
+            playerData.UpdateGuesses(guesses);
+            playerData.UpdateNumberOfGames();
+            playerData.AddGameToScoreboard(game.GetGameName(), guesses);
 
-            guesses = 0;
+            io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
+            io.PrintString("Top List:");
+            // PRINT TOPLIST (från DataIO + AverageGuesses-beräkning?)
 
-            // send player back
+            this.guesses = 0;
+
+            return;
         }
     }
 }

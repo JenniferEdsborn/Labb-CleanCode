@@ -1,5 +1,6 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
+using CodeQuest.Player;
 using CodeQuest.Utilities;
 using System.ComponentModel.Design;
 
@@ -10,26 +11,30 @@ namespace CodeQuest.Game
         IConsoleIO io;
         IGameLogic gameLogic;
         IGame game;
+
         ErrorMessages errorMessages = new ErrorMessages();
         MenuUtils menuUtils;
+        PlayerData playerData;
         
         private readonly string[] gameMenu;
         private Dictionary<int, Action> menuActions = new Dictionary<int, Action>();
 
-        public GameController(IConsoleIO io, IGame game)
+        public GameController(IConsoleIO io, IGame game, PlayerData playerData)
         {
             this.io = io;
             this.game = game;
-            gameLogic = new GameLogic(game, io);
+            this.playerData = playerData;
+
+            gameLogic = new GameLogic(game, io, playerData);
             menuUtils = new MenuUtils(io);
 
-            gameMenu = new string[] { "Start Game", "Help", "Back" };
+            gameMenu = new string[] { "Play", "Help", "Back" };
             InitializeMenuActions();
         }
 
         private void InitializeMenuActions()
         {
-            menuActions.Add(1, StartGame);
+            menuActions.Add(1, gameLogic.RunGameLoop);
             menuActions.Add(2, Help);
             menuActions.Add(3, Back);
         }
@@ -55,26 +60,6 @@ namespace CodeQuest.Game
             {
                 io.PrintString(errorMessages.InvalidInput());
             }
-        }
-
-        public void StartGame()
-        {
-            int magicNumber = gameLogic.GenerateMagicNumber();
-            int userGuess = 0;
-
-            while (userGuess != magicNumber) // måste jämföras - så måste ha ett int-värde
-            {
-                gameLogic.GetUserGuess();
-                if (// game logic is ok, number is 4 digits)
-                    // userGuess = gameLogic.CheckUserGuess();
-                    // >> generate feedback
-                // errorMessage.NoWay();
-                gameLogic.CheckUserGuess(); // return the int
-                gameLogic.GenerateFeedback(); // on the int
-            }
-
-            gameLogic.WinGame();
-            return;
         }
 
         public void Help()
