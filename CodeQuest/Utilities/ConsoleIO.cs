@@ -25,6 +25,11 @@ namespace CodeQuest.Utilities
             return Console.ReadLine();
         }
 
+        public string GetUserInput()
+        {
+            return Console.ReadLine();
+        }
+
         public bool IsNumber(string userInput)
         {
             return Int32.TryParse(userInput, out _);

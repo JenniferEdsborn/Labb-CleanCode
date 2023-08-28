@@ -1,23 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using CodeQuest.GameFactory;
+using CodeQuest.Interfaces;
 
 namespace CodeQuest.Game
 {
-    public class GameLogic
+    public class GameLogic : IGameLogic
     {
         private readonly int correctNumber;
         private int guesses;
         private int score;
         Random random;
+        IGame game;
 
-        public GameLogic() // ta in objekt så vi vet vilket spel det gäller
+        public GameLogic(IGame game)
         {
-            // create the randomizer with correct total of numbers
+            this.game = game;
+            random = new Random();
+
             correctNumber = 1234; // generate random number
             // create the dictionarystuff to PlayerData
+        }
+
+
+
+        public int GenerateMagicNumber()
+        {
+            return 0;
         }
 
         public void GetUserGuess()

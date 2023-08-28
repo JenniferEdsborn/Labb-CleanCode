@@ -7,6 +7,7 @@
         string GenerateFeedback(string input, int magicNumber);
         string GenerateMagicNumber();
         bool IsValidInput(string userGuess);
-
+        string GetGameName();
+        string GetInstructions();
     }
 }

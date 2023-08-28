@@ -12,6 +12,7 @@ namespace CodeQuest.Interfaces
         int ConvertToInt(string userInput);
         void Exit();
         string GetUserGuess(string userGuess);
+        string GetUserInput();
         string GetUserName();
         bool IsNumber(string userInput);
         void PressAnyKey();
