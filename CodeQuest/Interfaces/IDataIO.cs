@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CodeQuest.Interfaces
+﻿namespace CodeQuest.Interfaces
 {
     public interface IDataIO
     {
+        public void AssessPlayerData();
+
+        public void LoadPlayerData();
+
+        public void SavePlayerData();
     }
 }
