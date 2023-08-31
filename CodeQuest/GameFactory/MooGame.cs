@@ -1,12 +1,8 @@
-﻿using CodeQuest.Utilities;
-
-namespace CodeQuest.GameFactory
+﻿namespace CodeQuest.GameFactory
 {
     public class MooGame : IGame
     {
-        ErrorMessages errorMessages = new ErrorMessages();
-
-        public string GenerateMagicNumber()
+        public int GenerateMagicNumber()
         {
             Random randomGenerator = new Random();
             string magicNumber = "";
@@ -21,22 +17,14 @@ namespace CodeQuest.GameFactory
                 }
                 magicNumber = magicNumber + randomDigit;
             }
-            return magicNumber;
-        }
-
-        public void CheckUserGuess(int userGuess, int magicNumber)
-        {
-            string _userGuess = userGuess.ToString();
-            if (IsValidInput(_userGuess) && HasUniqueCharacters(_userGuess))
-            {
-                GenerateFeedback(_userGuess, magicNumber);
-            }
-            errorMessages.GuessNotValid();
+            int parsedMagicNumber = int.Parse(magicNumber);
+            return parsedMagicNumber;
         }
 
         public bool IsValidInput(string userGuess)
         {
-            return userGuess.Length == 4;
+            if (userGuess.Length == 4 && HasUniqueCharacters(userGuess))
+                return true; return false;
         }
 
         private bool HasUniqueCharacters(string userGuess)
@@ -54,30 +42,42 @@ namespace CodeQuest.GameFactory
             return true;
         }
 
-
         public string GenerateFeedback(string userGuess, int magicNumber)
         {
             string _magicNumber = magicNumber.ToString();
-            int cows = 0, bulls = 0;
+            char[] feedback = new char[4];
 
             for (int i = 0; i < 4; i++)
             {
+                if (_magicNumber[i] == userGuess[i])
+                {
+                    feedback[i] = 'B';
+                }
+                else
+                {
+                    feedback[i] = ',';
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (feedback[i] == 'B')
+                    continue;
+
                 for (int j = 0; j < 4; j++)
                 {
+                    if (feedback[j] != ',')
+                        continue;
+
                     if (_magicNumber[i] == userGuess[j])
                     {
-                        if (i == j)
-                        {
-                            bulls++;
-                        }
-                        else
-                        {
-                            cows++;
-                        }
+                        feedback[j] = 'C';
+                        break;
                     }
                 }
             }
-            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+
+            return new string(feedback);
         }
 
         public string GetGameName()
@@ -85,9 +85,12 @@ namespace CodeQuest.GameFactory
             return "MooGame";
         }
 
-        public string GetInstructions()
+        public string[] GetInstructions()
         {
-            return "MooGame game instructions.";
+            string[] instructions = new string[] { "Guess the magic number!", "Digits 0-9, only unique numbers.",
+                "B = right digit, right place", "C = right digit, wrong place", ", = digit not part of sequence" };
+
+            return instructions;
         }
     }
 }

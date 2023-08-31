@@ -1,57 +1,78 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
+using CodeQuest.Player;
+using CodeQuest.Utilities;
+using System.Reflection.Metadata.Ecma335;
 
 namespace CodeQuest.Game
 {
     public class GameLogic : IGameLogic
     {
-        private readonly int correctNumber;
-        private int guesses;
-        private int score;
-        Random random;
-        IGame game;
+        private int guesses = 0;
 
-        public GameLogic(IGame game)
+        IGame game;
+        IConsoleIO io;
+
+        PlayerData playerData;
+        ErrorMessages errorMessages = new ErrorMessages();
+
+        public GameLogic(IGame game, IConsoleIO io, PlayerData playerData)
         {
             this.game = game;
-            random = new Random();
-
-            correctNumber = 1234; // generate random number
-            // create the dictionarystuff to PlayerData
+            this.io = io;
+            this.playerData = playerData;
         }
 
-
-
-        public int GenerateMagicNumber()
+        public void RunGameLoop()
         {
-            return 0;
+            int magicNumber = game.GenerateMagicNumber();
+            int parsedUserGuess = 0;
+
+            while (parsedUserGuess != magicNumber)
+            {
+                io.PrintString($"Numret är: {magicNumber}");
+                io.PrintPrompt();
+                string userGuess = io.GetUserInput();
+                if (CheckUserGuess(userGuess))
+                {
+                    guesses++;
+                    parsedUserGuess = io.ConvertToInt(userGuess);
+                    io.PrintString(game.GenerateFeedback(userGuess, magicNumber));
+                }
+                else
+                {
+                    io.PrintString(errorMessages.GuessNotValid());
+                    continue;
+                }
+            }
+
+            WinGame();
         }
 
-        public void GetUserGuess()
+        private bool CheckUserGuess(string userGuess)
         {
-
+            if (io.IsNumber(userGuess) && game.IsValidInput(userGuess))
+            {
+                return true;
+            }
+            return false;
         }
 
-        public void CheckUserGuess()
+        private void WinGame()
         {
+            playerData.UpdateGuesses(guesses);
+            playerData.UpdateNumberOfGames();
+            playerData.AddGameToScoreboard(game.GetGameName(), guesses);
 
-        }
+            io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
+            io.PrintString("Top List:");
 
-        public string GenerateFeedback()
-        {
-            // cows and bulls
 
-            return "";
-        }
+            // PRINT TOPLIST (från DataIO + AverageGuesses-beräkning?)
 
-        public void WinGame()
-        {
-            // update guesses & no of games
-            // update GameScore
+            this.guesses = 0;
 
-            guesses = 0;
-
-            // send player back
+            return;
         }
     }
 }

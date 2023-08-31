@@ -12,15 +12,6 @@
         public void PlayGame()
         {
             IGame game = _gameFactory.CreateGame();
-            //game.Play();
-            //game.End();
         }
-
-
-
-        // Responsible for using factory to create game objects
-
-        // Interact with the factories through IGameFactory to recieve instances of IGame
-
     }
 }

@@ -1,82 +1,81 @@
 ﻿using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
+using CodeQuest.Player;
 using CodeQuest.Utilities;
+using System.ComponentModel.Design;
 
 namespace CodeQuest.Game
 {
     public class GameController
     {
+        bool GameIsRunning = true;
+        
         IConsoleIO io;
         IGameLogic gameLogic;
         IGame game;
+
         ErrorMessages errorMessages = new ErrorMessages();
-
+        MenuUtils menuUtils;
+        PlayerData playerData;
+        
         private readonly string[] gameMenu;
+        private Dictionary<int, Action> menuActions = new Dictionary<int, Action>();
 
-        public GameController(IConsoleIO io, IGame game)
+        public GameController(IConsoleIO io, IGame game, PlayerData playerData)
         {
             this.io = io;
             this.game = game;
-            gameLogic = new GameLogic(game);
+            this.playerData = playerData;
 
-            gameMenu = new string[] { "Start Game", "Help", "Back" };
+            gameLogic = new GameLogic(game, io, playerData);
+            menuUtils = new MenuUtils(io);
 
-            // populate gameMenu
-            // create the game from factory
+            gameMenu = new string[] { "Play", "Help", "Back" };
+            InitializeMenuActions();
+        }
+
+        private void InitializeMenuActions()
+        {
+            menuActions.Add(1, gameLogic.RunGameLoop);
+            menuActions.Add(2, Help);
+            menuActions.Add(3, Back);
         }
 
         public void GameMenu()
         {
-            io.PrintString(game.GetGameName());
-
-            for (int i = 0; i < gameMenu.Length; i++)
+            while(GameIsRunning)
             {
-                io.PrintString($"{i + 1}{gameMenu[i]}");
+                io.PrintString(game.GetGameName());
+
+                var menuIterator = new MenuIterator(gameMenu);
+                menuUtils.PrintMenuOptions(menuIterator);
+
+                int menuChoice = menuUtils.GetValidMenuChoice(gameMenu);
+                ProcessMenuChoice(menuChoice);
             }
+        }
 
-
-            // Error handling needed?
-
-            int menuChoice = io.ConvertToInt(io.GetUserInput());
-            while (true)
+        private void ProcessMenuChoice(int choice)
+        {
+            if (menuActions.ContainsKey(choice))
             {
-                switch (menuChoice)
-                {
-                    case 1:
-                        StartGame();
-                        break;
-                    case 2:
-                        Help();
-                        break;
-                    case 3:
-                        return;
-                    default:
-                        io.PrintString(errorMessages.InvalidInput());
-                        break;
-                }
+                menuActions[choice].Invoke();
+            }
+            else
+            {
+                io.PrintString(errorMessages.InvalidInput());
             }
         }
 
         public void Help()
         {
-            io.PrintString(game.GetInstructions());
+            var menuIterator = new MenuIterator(game.GetInstructions());
+            menuUtils.PrintMenuOptions(menuIterator);
         }
 
-        public void StartGame()
+        public void Back()
         {
-            int number = gameLogic.GenerateMagicNumber();
-            int userGuess = 1111;
-
-            while (userGuess != number)
-            {
-                gameLogic.GetUserGuess();
-                gameLogic.CheckUserGuess();
-                gameLogic.GenerateFeedback();
-            }
-            gameLogic.WinGame();
-            return;
-
-            // game logic
+            GameIsRunning = false;
         }
     }
 }

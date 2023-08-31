@@ -11,11 +11,11 @@ namespace CodeQuest.Interfaces
         void Clear();
         int ConvertToInt(string userInput);
         void Exit();
-        string GetUserGuess(string userGuess);
         string GetUserInput();
         string GetUserName();
         bool IsNumber(string userInput);
         void PressAnyKey();
+        void PrintPrompt();
         void PrintString(string output);
     }
 }

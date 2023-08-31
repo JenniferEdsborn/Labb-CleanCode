@@ -3,9 +3,7 @@ using CodeQuest.Utilities;
 
 public class MasterMind : IGame
 {
-    ErrorMessages errorMessages = new ErrorMessages();
-
-    public string GenerateMagicNumber()
+    public int GenerateMagicNumber()
     {
         Random randomGenerator = new Random();
         string magicNumber = "";
@@ -14,17 +12,8 @@ public class MasterMind : IGame
             int randomDigit = randomGenerator.Next(6);
             magicNumber += randomDigit.ToString();
         }
-        return magicNumber;
-    }
-
-    public void CheckUserGuess(int userGuess, int magicNumber)
-    {
-        string _userGuess = userGuess.ToString();
-        if (IsValidInput(_userGuess))
-        {
-            GenerateFeedback(_userGuess, magicNumber);
-        }
-        errorMessages.GuessNotValid();
+        int parsedMagicNumber = int.Parse(magicNumber);
+        return parsedMagicNumber;
     }
 
     public bool IsValidInput(string userGuess)
@@ -35,26 +24,39 @@ public class MasterMind : IGame
     public string GenerateFeedback(string userGuess, int magicNumber)
     {
         string _magicNumber = magicNumber.ToString();
-        int cows = 0, bulls = 0;
+        char[] feedback = new char[4];
 
         for (int i = 0; i < 4; i++)
         {
+            if (_magicNumber[i] == userGuess[i])
+            {
+                feedback[i] = 'B';
+            }
+            else
+            {
+                feedback[i] = ',';
+            }
+        }
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (feedback[i] == 'B')
+                continue;
+
             for (int j = 0; j < 4; j++)
             {
+                if (feedback[j] != ',')
+                    continue;
+
                 if (_magicNumber[i] == userGuess[j])
                 {
-                    if (i == j)
-                    {
-                        bulls++;
-                    }
-                    else
-                    {
-                        cows++;
-                    }
+                    feedback[j] = 'C';
+                    break;
                 }
             }
         }
-        return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+
+        return new string(feedback);
     }
 
     public string GetGameName()
@@ -62,8 +64,11 @@ public class MasterMind : IGame
         return "MasterMind";
     }
 
-    public string GetInstructions()
+    public string[] GetInstructions()
     {
-        return "MasterMind game instructions.";
+        string[] instructions = new string[] { "Guess the magic number!", "Digits 0-5, non-unique numbers are allowed.",
+                "B = right digit, right place", "C = right digit, wrong place", ", = digit not part of sequence" };
+
+        return instructions;
     }
 }

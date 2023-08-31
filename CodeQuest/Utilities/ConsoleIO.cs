@@ -20,14 +20,14 @@ namespace CodeQuest.Utilities
             return Console.ReadLine();
         }
 
-        public string GetUserGuess(string userGuess)
+        public string GetUserInput()
         {
             return Console.ReadLine();
         }
 
-        public string GetUserInput()
+        public void PrintPrompt()
         {
-            return Console.ReadLine();
+            Console.Write("> ");
         }
 
         public bool IsNumber(string userInput)

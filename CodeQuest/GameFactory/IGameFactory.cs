@@ -9,13 +9,5 @@ namespace CodeQuest.GameFactory
     public interface IGameFactory
     {
         IGame CreateGame();
-
-        // Kommer ha metod, exempelvis CreateGame(); som returnar en IGame object
     }
-
-    //
-    // 
-    // int magicNumber
-    // int userGuess
-    // etc.
 }
