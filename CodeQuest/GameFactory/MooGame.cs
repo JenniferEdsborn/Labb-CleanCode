@@ -45,26 +45,39 @@
         public string GenerateFeedback(string userGuess, int magicNumber)
         {
             string _magicNumber = magicNumber.ToString();
-            int cows = 0, bulls = 0;
+            char[] feedback = new char[4];
 
             for (int i = 0; i < 4; i++)
             {
+                if (_magicNumber[i] == userGuess[i])
+                {
+                    feedback[i] = 'B';
+                }
+                else
+                {
+                    feedback[i] = ',';
+                }
+            }
+
+            for (int i = 0; i < 4; i++)
+            {
+                if (feedback[i] == 'B')
+                    continue;
+
                 for (int j = 0; j < 4; j++)
                 {
+                    if (feedback[j] != ',')
+                        continue;
+
                     if (_magicNumber[i] == userGuess[j])
                     {
-                        if (i == j)
-                        {
-                            bulls++;
-                        }
-                        else
-                        {
-                            cows++;
-                        }
+                        feedback[j] = 'C';
+                        break;
                     }
                 }
             }
-            return "BBBB".Substring(0, bulls) + "," + "CCCC".Substring(0, cows);
+
+            return new string(feedback);
         }
 
         public string GetGameName()

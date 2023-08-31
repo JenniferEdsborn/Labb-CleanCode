@@ -11,6 +11,7 @@ namespace CodeQuest.Tests
     {
         private Mock<IConsoleIO> mockIo;
         private Mock<IGameFactory> mockGameFactory;
+        // need PlayerDaya mock-object
 
         [TestInitialize]
         public void Setup()

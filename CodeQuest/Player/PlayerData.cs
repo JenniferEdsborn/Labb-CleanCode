@@ -5,7 +5,7 @@
         public string Name { get; private set; }
         private int NumberOfGames { get; set; }
         private int NumberOfGuesses { get; set; }
-        private Dictionary<string, int> GameScores = new Dictionary<string, int>();
+        private Dictionary<string, List<int>> Scoreboard = new Dictionary<string, List<int>>();
 
         public PlayerData(string name)
         {
@@ -14,19 +14,19 @@
 
         public void AddGameToScoreboard(string gameTitle, int guesses)
         {
-            if (GameScores.ContainsKey(gameTitle))
+            if (Scoreboard.ContainsKey(gameTitle))
             {
-                GameScores[gameTitle]+= guesses;
+                Scoreboard[gameTitle].Add(guesses);
             }
             else
             {
-                GameScores.Add(gameTitle, guesses);
+                Scoreboard.Add(gameTitle, new List<int> { guesses});
             }
         }
 
-        public IReadOnlyDictionary<string, int> GetScoreboard()
+        public IReadOnlyDictionary<string, List<int>> GetScoreboard()
         {
-            return GameScores;
+            return Scoreboard;
         }
 
         public void UpdateGuesses(int guesses)

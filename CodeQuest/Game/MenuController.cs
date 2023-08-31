@@ -14,6 +14,7 @@ namespace CodeQuest.Game
         ErrorMessages errorMessages = new ErrorMessages();
         MenuUtils menuUtils;
         PlayerData playerData;
+        GameController gameController;
 
         private readonly string[] menu;
         private readonly List<string> games;
@@ -67,11 +68,29 @@ namespace CodeQuest.Game
 
         public void DisplayMenu()
         {
-            var menuIterator = new MenuIterator(menu);
-            menuUtils.PrintMenuOptions(menuIterator);
+            io.PrintString("- - - - CODE QUEST - - - -");
+            io.PrintString("Made by: Jennifer Edsborn, Jonathan Strand\n");
 
-            int menuChoice = menuUtils.GetValidMenuChoice(menu);
-            ProcessMenuChoice(menuChoice);
+            while (true)
+            {
+                var menuIterator = new MenuIterator(menu);
+                menuUtils.PrintMenuOptions(menuIterator);
+
+                int menuChoice = menuUtils.GetValidMenuChoice(menu);
+                ProcessMenuChoice(menuChoice);
+            }
+        }
+
+        private void ProcessMenuChoice(int menuChoice)
+        {
+            if (menuActions.ContainsKey(menuChoice))
+            {
+                menuActions[menuChoice].Invoke();
+            }
+            else
+            {
+                io.PrintString(errorMessages.InvalidInput());
+            }
         }
 
         public void ChooseGame()
@@ -90,18 +109,6 @@ namespace CodeQuest.Game
                 io.PrintString(errorMessages.InvalidInput());
             }
 
-        }
-
-        private void ProcessMenuChoice(int choice)
-        {
-            if (menuActions.ContainsKey(choice))
-            {
-                menuActions[choice].Invoke();
-            }
-            else
-            {
-                io.PrintString(errorMessages.InvalidInput());
-            }
         }
 
         private void StartGame(IGame game)

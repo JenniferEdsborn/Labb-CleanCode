@@ -30,6 +30,7 @@ namespace CodeQuest.Game
 
             while (parsedUserGuess != magicNumber)
             {
+                io.PrintString($"Numret är: {magicNumber}");
                 io.PrintPrompt();
                 string userGuess = io.GetUserInput();
                 if (CheckUserGuess(userGuess))
@@ -65,6 +66,8 @@ namespace CodeQuest.Game
 
             io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
             io.PrintString("Top List:");
+
+
             // PRINT TOPLIST (från DataIO + AverageGuesses-beräkning?)
 
             this.guesses = 0;

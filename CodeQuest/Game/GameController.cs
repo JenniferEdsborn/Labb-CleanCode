@@ -8,6 +8,8 @@ namespace CodeQuest.Game
 {
     public class GameController
     {
+        bool GameIsRunning = true;
+        
         IConsoleIO io;
         IGameLogic gameLogic;
         IGame game;
@@ -41,13 +43,16 @@ namespace CodeQuest.Game
 
         public void GameMenu()
         {
-            io.PrintString(game.GetGameName());
+            while(GameIsRunning)
+            {
+                io.PrintString(game.GetGameName());
 
-            var menuIterator = new MenuIterator(gameMenu);
-            menuUtils.PrintMenuOptions(menuIterator);
+                var menuIterator = new MenuIterator(gameMenu);
+                menuUtils.PrintMenuOptions(menuIterator);
 
-            int menuChoice = menuUtils.GetValidMenuChoice(gameMenu);
-            ProcessMenuChoice(menuChoice);
+                int menuChoice = menuUtils.GetValidMenuChoice(gameMenu);
+                ProcessMenuChoice(menuChoice);
+            }
         }
 
         private void ProcessMenuChoice(int choice)
@@ -70,7 +75,7 @@ namespace CodeQuest.Game
 
         public void Back()
         {
-            return;
+            GameIsRunning = false;
         }
     }
 }
