@@ -2,7 +2,7 @@
 
 namespace CodeQuest.Player
 {
-    public class PlayerData : IPlayerData
+    public class PlayerData
     {
 
         public string Name { get; private set; }

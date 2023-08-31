@@ -5,15 +5,12 @@ namespace CodeQuest.Utilities
 {
     public class DataIO : IDataIO
     {
-        IConsoleIO io;
         Player.PlayerData playerData;
         private string filePath;
 
-        public DataIO(Player.PlayerData playerData, IConsoleIO io)
+        public DataIO()
         {
-            this.playerData = playerData;
-            this.io = io;
-            filePath = $"{playerData.GetPlayerName()}_data.json";
+            //filePath = $"{playerData.GetPlayerName()}_data.json";
         }
 
         public void AssessPlayerData()
@@ -34,6 +31,7 @@ namespace CodeQuest.Utilities
                 writer.Write(jsonData);
             }
         }
+
         public void LoadPlayerData()
         {
             using (StreamReader reader = new StreamReader(filePath))
@@ -41,11 +39,6 @@ namespace CodeQuest.Utilities
                 string jsonData = reader.ReadToEnd();
                 playerData = JsonSerializer.Deserialize<Player.PlayerData>(jsonData);
             }
-        }
-
-        public Player.PlayerData GetPlayerData()
-        {
-            return playerData;
         }
     }
 
