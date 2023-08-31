@@ -70,6 +70,7 @@ namespace CodeQuest.Game
         {
             io.PrintString("- - - - CODE QUEST - - - -");
             io.PrintString("Made by: Jennifer Edsborn, Jonathan Strand\n");
+            io.PrintString($"Welcome, {playerData.Name}!");
 
             while (true)
             {

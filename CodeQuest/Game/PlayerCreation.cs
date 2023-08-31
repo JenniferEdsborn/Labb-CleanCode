@@ -38,6 +38,8 @@ namespace CodeQuest.Game
                 switch (menuChoice)
                 {
                     case 1:
+                        io.PrintString("Enter user name:");
+                        io.PrintPrompt();
                         string userName = io.GetUserName();
                         playerData = new PlayerData(userName);
                         menuRunning = false;
