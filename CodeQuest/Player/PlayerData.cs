@@ -1,7 +1,10 @@
-﻿namespace CodeQuest.Player
+﻿using CodeQuest.Interfaces;
+
+namespace CodeQuest.Player
 {
-    public class PlayerData
+    public class PlayerData : IPlayerData
     {
+
         public string Name { get; private set; }
         private int NumberOfGames { get; set; }
         private int NumberOfGuesses { get; set; }
@@ -44,5 +47,11 @@
         {
             return (double)NumberOfGuesses / NumberOfGames;
         }
+        public string GetPlayerName()
+        {
+            return Name;
+        }
+
+        
     }
 }
