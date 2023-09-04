@@ -8,11 +8,23 @@ namespace CodeQuest.Player
         public string Name { get; private set; }
         private int NumberOfGames { get; set; }
         private int NumberOfGuesses { get; set; }
+
         private Dictionary<string, List<int>> Scoreboard = new Dictionary<string, List<int>>();
+        public event Action<PlayerData> PlayerDataUpdated;
 
         public PlayerData(string name)
         {
             Name = name;
+        }
+
+        public void UpdatePlayerData(PlayerData newPlayerData)
+        {
+            this.Name = newPlayerData.Name;
+            this.NumberOfGames = newPlayerData.NumberOfGames;
+            this.NumberOfGuesses = newPlayerData.NumberOfGuesses;
+            this.Scoreboard = new Dictionary<string, List<int>>(newPlayerData.Scoreboard);
+
+            PlayerDataUpdated?.Invoke(this);
         }
 
         public void AddGameToScoreboard(string gameTitle, int guesses)
@@ -50,8 +62,6 @@ namespace CodeQuest.Player
         public string GetPlayerName()
         {
             return Name;
-        }
-
-        
+        }        
     }
 }

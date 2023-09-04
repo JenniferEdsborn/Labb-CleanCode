@@ -10,11 +10,11 @@ namespace CodeQuest.Game
         IConsoleIO io;
         IGameFactory masterMindFactory;
         IGameFactory mooGameFactory;
+        IDataIO dataIO;
 
         ErrorMessages errorMessages = new ErrorMessages();
         MenuUtils menuUtils;
         PlayerData playerData;
-        GameController gameController;
 
         private readonly string[] menu;
         private readonly List<string> games;
@@ -30,9 +30,10 @@ namespace CodeQuest.Game
             this.masterMindFactory = masterMindFactory;
             this.mooGameFactory = mooGameFactory;
 
-            menu = new string[] { "Choose Game", "Show Scoreboard", "Change Player", "Settings", "Exit" };
+            menu = new string[] { "Choose Game", "Show Scoreboard", "Exit" };
             games = GameClassLocator.GetAvailableGames();
             menuUtils = new MenuUtils(io);
+            dataIO = new DataIO();
 
             gameFactories.Add("MasterMind", masterMindFactory);
             gameFactories.Add("MooGame", mooGameFactory);
@@ -45,9 +46,7 @@ namespace CodeQuest.Game
         {
             menuActions.Add(1, ChooseGame);
             menuActions.Add(2, ShowScoreboard);
-            menuActions.Add(3, InitiatePlayerCreation);
-            menuActions.Add(4, Settings);
-            menuActions.Add(5, io.Exit);
+            menuActions.Add(3, io.Exit);
         }
         private void InitializeGameChoiceActions()
         {
@@ -109,7 +108,6 @@ namespace CodeQuest.Game
             {
                 io.PrintString(errorMessages.InvalidInput());
             }
-
         }
 
         private void StartGame(IGame game)
@@ -118,19 +116,54 @@ namespace CodeQuest.Game
             controller.GameMenu();
         }
 
-        private void Settings()
-        {
-            // change color of text
-        }
-
         private void ShowScoreboard()
         {
+            io.PrintString($"Your average: {playerData.AverageGuesses()}");
 
+            io.PrintString("Top List:");
+            GetTopList();
+
+            io.PrintString("Your best games:");
+            GetBestGames();
         }
-        private void InitiatePlayerCreation()
+
+        private void GetTopList()
         {
-            // create new player
-            // load player
+            List<(string, double)> topPlayers = dataIO.GetTopPlayers();
+
+            foreach (var (name, avgGuesses) in topPlayers)
+            {
+                io.PrintString($"Name: {name}, Average Guesses: {avgGuesses}");
+            }
+        }
+
+        private void GetBestGames()
+        {
+            IReadOnlyDictionary<string, List<int>> scoreboard = playerData.GetScoreboard();
+
+            List<(string GameName, int Guesses)> allGamesAndGuesses = new List<(string, int)>();
+
+            foreach (var entry in scoreboard)
+            {
+                string gameName = entry.Key;
+                List<int> guessesForGame = entry.Value;
+
+                foreach (var guessCount in guessesForGame)
+                {
+                    allGamesAndGuesses.Add((gameName, guessCount));
+                }
+            }
+
+            allGamesAndGuesses.Sort((a, b) => a.Guesses.CompareTo(b.Guesses));
+
+            var topTenGames = allGamesAndGuesses.Take(10);
+
+            for (int i = 0; i < topTenGames.Count(); i++)
+            {
+                var gameName = topTenGames.ElementAt(i).GameName;
+                var guessCount = topTenGames.ElementAt(i).Guesses;
+                io.PrintString($"{i + 1}. {gameName}: {guessCount} guesses");
+            }
         }
     }
 }

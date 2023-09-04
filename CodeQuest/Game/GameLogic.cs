@@ -9,9 +9,11 @@ namespace CodeQuest.Game
     public class GameLogic : IGameLogic
     {
         private int guesses = 0;
+        private const string WinningFeedback = "BBBB";
 
         IGame game;
         IConsoleIO io;
+        IDataIO dataIO;
 
         PlayerData playerData;
         ErrorMessages errorMessages = new ErrorMessages();
@@ -21,23 +23,32 @@ namespace CodeQuest.Game
             this.game = game;
             this.io = io;
             this.playerData = playerData;
+
+            dataIO = new DataIO();
         }
 
         public void RunGameLoop()
         {
-            int magicNumber = game.GenerateMagicNumber();
-            int parsedUserGuess = 0;
+            string magicNumber = game.GenerateMagicNumber();
+            bool correctNumberGuessed = false;
 
-            while (parsedUserGuess != magicNumber)
+            io.PrintString($"Numret är: {magicNumber}");
+
+            while (!correctNumberGuessed)
             {
-                io.PrintString($"Numret är: {magicNumber}");
                 io.PrintPrompt();
                 string userGuess = io.GetUserInput();
+
                 if (CheckUserGuess(userGuess))
                 {
                     guesses++;
-                    parsedUserGuess = io.ConvertToInt(userGuess);
-                    io.PrintString(game.GenerateFeedback(userGuess, magicNumber));
+                    string feedback = game.GenerateFeedback(userGuess, magicNumber);
+                    io.PrintString(feedback);
+
+                    if (feedback == WinningFeedback)
+                    {
+                        correctNumberGuessed = true;
+                    }
                 }
                 else
                 {
@@ -67,8 +78,12 @@ namespace CodeQuest.Game
             io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
             io.PrintString("Top List:");
 
+            List<(string, double)> topPlayers = dataIO.GetTopPlayers();
 
-            // PRINT TOPLIST (från DataIO + AverageGuesses-beräkning?)
+            foreach (var (name, avgGuesses) in topPlayers)
+            {
+                io.PrintString($"Name: {name}, Average Guesses: {avgGuesses}");
+            }
 
             this.guesses = 0;
 

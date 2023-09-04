@@ -27,6 +27,10 @@
             return "ERROR! The player data was not saved.";
         }
 
+        public string PlayerDataDoesntExist()
+        {
+            return "ERROR! Player data doesn't exist.";
+        }
 
         //public string ErrorCode;
         //public string Description;

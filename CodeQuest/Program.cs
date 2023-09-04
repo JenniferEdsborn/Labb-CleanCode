@@ -6,6 +6,13 @@ using CodeQuest.Utilities;
 
 namespace CodeQuest;
 
+// Byta Player?
+// Skriva tester
+// UpdatePlayerData i PlayerData??? hur få observern att kicka igång
+// TopList skrivs inte ut
+// json-fil sparas inte
+// return null?
+
 class Program
 {
     static void Main(string[] args)
