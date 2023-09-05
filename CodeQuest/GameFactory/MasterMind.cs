@@ -1,5 +1,4 @@
 ﻿using CodeQuest.GameFactory;
-using CodeQuest.Utilities;
 
 public class MasterMind : IGame
 {
