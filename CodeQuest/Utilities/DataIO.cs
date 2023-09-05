@@ -7,7 +7,7 @@ namespace CodeQuest.Utilities
     public class DataIO : IDataIO
     {
         private List<PlayerData> playerDataList;
-        private string filePath;
+        private readonly string filePath;
 
         public DataIO()
         {
@@ -20,16 +20,16 @@ namespace CodeQuest.Utilities
             }
         }
 
-        public async void SubscribeToPlayerData(PlayerData newPlayerData)
+        public void SubscribeToPlayerData(PlayerData newPlayerData)
         {
             newPlayerData.PlayerDataUpdated += PlayerDataUpdatedHandler;
             playerDataList.Add(newPlayerData);
-            await SavePlayerDataList();
+            Task.Run(() => SavePlayerDataList());
         }
 
-        private void PlayerDataUpdatedHandler(PlayerData playerData)
+        private async void PlayerDataUpdatedHandler(PlayerData playerData)
         {
-            SavePlayerData(playerData);
+            await SavePlayerData(playerData);
         }
 
         public List<string> GetPlayerNames()
@@ -54,7 +54,7 @@ namespace CodeQuest.Utilities
             return playerData;
         }
 
-        public async void SavePlayerData(PlayerData playerDataToUpdate)
+        public async Task SavePlayerData(PlayerData playerDataToUpdate)
         {
             if (playerDataList == null)
             {
@@ -84,6 +84,7 @@ namespace CodeQuest.Utilities
             }
 
             string jsonData = JsonSerializer.Serialize(playerDataList);
+
             using (StreamWriter writer = File.CreateText(filePath))
             {
                 await writer.WriteAsync(jsonData);
@@ -105,6 +106,8 @@ namespace CodeQuest.Utilities
 
         public List<(string Name, double AverageGuesses)> GetTopPlayers()
         {
+            LoadPlayerDataList();
+
             var topPlayers = playerDataList
                 .Where(playerData => playerData.NumberOfGames > 0)
                 .Select(playerData => (playerData.Name, AverageGuesses: playerData.AverageGuesses()))
