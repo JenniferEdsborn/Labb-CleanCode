@@ -39,12 +39,12 @@ namespace CodeQuest.Utilities
             }
         }
 
-        public void PrintTopPlayers(List<(string, double)> topPlayers)
+        public void PrintTopPlayers(List<(string Name, int NumberOfGames, double AverageGuesses)> topPlayers)
         {
             for (int i = 0; i < topPlayers.Count; i++)
             {
-                var (name, avgGuesses) = topPlayers[i];
-                io.PrintString($"{i + 1}. {name} - {avgGuesses} average guesses");
+                var (name, numberOfGames, avgGuesses) = topPlayers[i];
+                io.PrintString($"{i + 1}. {name} - {numberOfGames} games - {avgGuesses:F2} average guesses");
             }
         }
     }

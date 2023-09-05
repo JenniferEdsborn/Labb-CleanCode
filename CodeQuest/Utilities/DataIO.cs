@@ -104,13 +104,13 @@ namespace CodeQuest.Utilities
             }
         }
 
-        public List<(string Name, double AverageGuesses)> GetTopPlayers()
+        public List<(string Name, int NumberOfGames, double AverageGuesses)> GetTopPlayers()
         {
             LoadPlayerDataList();
 
             var topPlayers = playerDataList
                 .Where(playerData => playerData.NumberOfGames > 0)
-                .Select(playerData => (playerData.Name, AverageGuesses: playerData.AverageGuesses()))
+                .Select(playerData => (playerData.Name, playerData.NumberOfGames, AverageGuesses: playerData.AverageGuesses()))
                 .OrderBy(player => player.AverageGuesses)
                 .Take(10)
                 .ToList();

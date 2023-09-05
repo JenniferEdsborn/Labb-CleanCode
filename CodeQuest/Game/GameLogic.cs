@@ -3,6 +3,7 @@ using CodeQuest.Interfaces;
 using CodeQuest.Player;
 using CodeQuest.Utilities;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 
 namespace CodeQuest.Game
 {
@@ -34,7 +35,8 @@ namespace CodeQuest.Game
             string magicNumber = game.GenerateMagicNumber();
             bool correctNumberGuessed = false;
 
-            io.PrintString($"Numret är: {magicNumber}");
+            io.PrintString("Guess the magic number!");
+            io.PrintString($"Correct number: {magicNumber}");
 
             while (!correctNumberGuessed)
             {
@@ -59,7 +61,40 @@ namespace CodeQuest.Game
                 }
             }
 
-            WinGame();
+            AskPlayerToContinue(magicNumber);
+        }
+
+        private void AskPlayerToContinue(string magicNumber)
+        {
+            bool continueGame = true;
+
+            playerData.UpdateGuesses(guesses);
+            playerData.UpdateNumberOfGames();
+            playerData.AddGameToScoreboard(game.GetGameName(), guesses);
+
+            io.PrintString($"Correct! The Magic Number was {magicNumber}. It took {guesses} guesses.\nContinue (y/n)?");
+            io.PrintPrompt();
+
+            guesses = 0;
+
+            while (continueGame)
+            {
+                string userInput = io.GetUserInput().ToLower();
+
+                if (userInput == "y")
+                {
+                    RunGameLoop();
+                }
+                else if (userInput == "n")
+                {
+                    continueGame = false;
+                    WinGame();
+                }
+                else
+                {
+                    io.PrintString(errorMessages.InvalidInput());
+                }
+            }
         }
 
         private bool CheckUserGuess(string userGuess)
@@ -72,22 +107,14 @@ namespace CodeQuest.Game
         }
 
         private void WinGame()
-        {
-            playerData.UpdateGuesses(guesses);
-            playerData.UpdateNumberOfGames();
-            playerData.AddGameToScoreboard(game.GetGameName(), guesses);
+        {           
             playerData.UpdatePlayerData(playerData);
-
-            io.PrintString($"user games: {playerData.NumberOfGames}");
-            io.PrintString($"user guesses: {playerData.NumberOfGuesses}");
 
             io.PrintString($"--- Your average amount of guesses are: {playerData.AverageGuesses()}.");
             io.PrintString("--- Top List:");
 
-            List<(string, double)> topPlayers = dataIO.GetTopPlayers();
+            List<(string, int, double)> topPlayers = dataIO.GetTopPlayers();
             menuUtils.PrintTopPlayers(topPlayers);
-
-            guesses = 0;
 
             return;
         }

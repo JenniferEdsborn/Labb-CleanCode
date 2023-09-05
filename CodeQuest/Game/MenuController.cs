@@ -122,9 +122,9 @@ namespace CodeQuest.Game
             double playerAverage = playerData.AverageGuesses();
 
             if (playerAverage == 0)
-                io.PrintString($"--- Your average: 0");
+                io.PrintString($"--- Your average guesses: 0");
             else
-                io.PrintString($"--- Your average: {playerData.AverageGuesses()}");
+                io.PrintString($"--- Your average guesses: {playerData.AverageGuesses()}");
 
             io.PrintString("--- Top List:");
             GetTopList();
@@ -135,7 +135,7 @@ namespace CodeQuest.Game
 
         private void GetTopList()
         {
-            List<(string, double)> topPlayers = dataIO.GetTopPlayers();
+            List<(string, int, double)> topPlayers = dataIO.GetTopPlayers();
             menuUtils.PrintTopPlayers(topPlayers);
         }
 

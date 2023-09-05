@@ -1,7 +1,6 @@
 ﻿using CodeQuest.Game;
 using CodeQuest.GameFactory;
 using CodeQuest.Interfaces;
-using CodeQuest.Player;
 using CodeQuest.Utilities;
 
 namespace CodeQuest;
@@ -13,7 +12,7 @@ class Program
         IConsoleIO io = new ConsoleIO();
 
         PlayerCreation playerCreation = new PlayerCreation(io);
-        PlayerData playerData = playerCreation.CreateOrLoadPlayer();
+        Player.PlayerData playerData = playerCreation.CreateOrLoadPlayer();
 
         IGameFactory masterMindFactory = new MasterMindFactory();
         IGameFactory mooGameFactory = new MooGameFactory();
