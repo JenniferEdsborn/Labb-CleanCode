@@ -1,16 +1,13 @@
-﻿using CodeQuest.Interfaces;
-
-namespace CodeQuest.Player
+﻿namespace CodeQuest.Player
 {
     public class PlayerData
     {
-
         public string Name { get; private set; }
-        private int NumberOfGames { get; set; }
-        private int NumberOfGuesses { get; set; }
+        public int NumberOfGames { get; set; }
+        public int NumberOfGuesses { get; set; }
+        public Dictionary<string, List<int>> Scoreboard { get; set; } = new Dictionary<string, List<int>>();
 
-        private Dictionary<string, List<int>> Scoreboard = new Dictionary<string, List<int>>();
-        public event Action<PlayerData> PlayerDataUpdated;
+        public event Action<PlayerData> PlayerDataUpdated = delegate { };
 
         public PlayerData(string name)
         {
@@ -35,7 +32,7 @@ namespace CodeQuest.Player
             }
             else
             {
-                Scoreboard.Add(gameTitle, new List<int> { guesses});
+                Scoreboard.Add(gameTitle, new List<int> { guesses });
             }
         }
 
@@ -47,7 +44,6 @@ namespace CodeQuest.Player
         public void UpdateGuesses(int guesses)
         {
             NumberOfGuesses += guesses;
-            NumberOfGames++;
         }
 
         public void UpdateNumberOfGames()

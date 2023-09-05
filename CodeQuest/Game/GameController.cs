@@ -45,6 +45,7 @@ namespace CodeQuest.Game
         {
             while(GameIsRunning)
             {
+                io.PrintString("");
                 io.PrintString(game.GetGameName());
 
                 var menuIterator = new MenuIterator(gameMenu);

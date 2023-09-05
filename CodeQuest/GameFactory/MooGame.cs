@@ -25,23 +25,8 @@
 
         public bool IsValidInput(string userGuess)
         {
-            if (userGuess.Length == 4 && HasUniqueCharacters(userGuess))
+            if (userGuess.Length == 4)
                 return true; return false;
-        }
-
-        private bool HasUniqueCharacters(string userGuess)
-        {
-            HashSet<char> uniqueCharacters = new HashSet<char>();
-
-            foreach (char c in userGuess)
-            {
-                if (uniqueCharacters.Contains(c))
-                {
-                    return false;
-                }
-                uniqueCharacters.Add(c);
-            }
-            return true;
         }
 
         public string GenerateFeedback(string userGuess, string magicNumber)

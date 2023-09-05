@@ -48,7 +48,7 @@ namespace CodeQuest.Game
                         else
                         {
                             playerData = new PlayerData(userName);
-                            dataIO.SavePlayerData(playerData);
+                            dataIO.SubscribeToPlayerData(playerData);
                             menuRunning = false;
                         }
                         break;
@@ -90,6 +90,7 @@ namespace CodeQuest.Game
                 return null;
             }
 
+            io.PrintString("Choose which player to load:");
             while (true)
             {
                 var menuIterator = new MenuIterator(playerNames.ToArray());
@@ -102,6 +103,7 @@ namespace CodeQuest.Game
 
                 if (selectedPlayerData != null)
                 {
+                    io.PrintString($"Player {selectedPlayerData.Name} successfully loaded.\n");
                     return selectedPlayerData;
                 }
                 else
