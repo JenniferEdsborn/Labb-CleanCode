@@ -11,7 +11,7 @@ namespace CodeQuest.Utilities
 
         public DataIO()
         {
-            filePath = "CodeQuestSaveGames.json";
+            filePath = Path.Combine(Directory.GetCurrentDirectory(), "CodeQuestSaveGames.json");
             LoadPlayerDataList();
 
             foreach (var playerData in playerDataList)
@@ -84,12 +84,11 @@ namespace CodeQuest.Utilities
             }
 
             string jsonData = JsonSerializer.Serialize(playerDataList);
-
             using (StreamWriter writer = File.CreateText(filePath))
             {
                 await writer.WriteAsync(jsonData);
             }
-        }    
+        } 
 
         private void LoadPlayerDataList()
         {
@@ -107,6 +106,7 @@ namespace CodeQuest.Utilities
         public List<(string Name, double AverageGuesses)> GetTopPlayers()
         {
             var topPlayers = playerDataList
+                .Where(playerData => playerData.NumberOfGames > 0)
                 .Select(playerData => (playerData.Name, AverageGuesses: playerData.AverageGuesses()))
                 .OrderBy(player => player.AverageGuesses)
                 .Take(10)

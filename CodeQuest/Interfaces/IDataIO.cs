@@ -8,5 +8,6 @@ namespace CodeQuest.Interfaces
         List<(string Name, double AverageGuesses)> GetTopPlayers();
         PlayerData LoadPlayerData(string playerName);
         void SavePlayerData(PlayerData playerDataToUpdate);
+        void SubscribeToPlayerData(PlayerData newPlayerData);
     }
 }

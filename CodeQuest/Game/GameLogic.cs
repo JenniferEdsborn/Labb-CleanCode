@@ -17,6 +17,7 @@ namespace CodeQuest.Game
 
         PlayerData playerData;
         ErrorMessages errorMessages = new ErrorMessages();
+        MenuUtils menuUtils;
 
         public GameLogic(IGame game, IConsoleIO io, PlayerData playerData)
         {
@@ -25,6 +26,7 @@ namespace CodeQuest.Game
             this.playerData = playerData;
 
             dataIO = new DataIO();
+            menuUtils = new MenuUtils(io);
         }
 
         public void RunGameLoop()
@@ -74,18 +76,18 @@ namespace CodeQuest.Game
             playerData.UpdateGuesses(guesses);
             playerData.UpdateNumberOfGames();
             playerData.AddGameToScoreboard(game.GetGameName(), guesses);
+            playerData.UpdatePlayerData(playerData);
 
-            io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
-            io.PrintString("Top List:");
+            io.PrintString($"user games: {playerData.NumberOfGames}");
+            io.PrintString($"user guesses: {playerData.NumberOfGuesses}");
+
+            io.PrintString($"--- Your average amount of guesses are: {playerData.AverageGuesses()}.");
+            io.PrintString("--- Top List:");
 
             List<(string, double)> topPlayers = dataIO.GetTopPlayers();
+            menuUtils.PrintTopPlayers(topPlayers);
 
-            foreach (var (name, avgGuesses) in topPlayers)
-            {
-                io.PrintString($"Name: {name}, Average Guesses: {avgGuesses}");
-            }
-
-            this.guesses = 0;
+            guesses = 0;
 
             return;
         }

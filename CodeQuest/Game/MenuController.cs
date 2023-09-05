@@ -73,6 +73,7 @@ namespace CodeQuest.Game
 
             while (true)
             {
+                io.PrintString("");
                 var menuIterator = new MenuIterator(menu);
                 menuUtils.PrintMenuOptions(menuIterator);
 
@@ -118,23 +119,24 @@ namespace CodeQuest.Game
 
         private void ShowScoreboard()
         {
-            io.PrintString($"Your average: {playerData.AverageGuesses()}");
+            double playerAverage = playerData.AverageGuesses();
 
-            io.PrintString("Top List:");
+            if (playerAverage == 0)
+                io.PrintString($"--- Your average: 0");
+            else
+                io.PrintString($"--- Your average: {playerData.AverageGuesses()}");
+
+            io.PrintString("--- Top List:");
             GetTopList();
 
-            io.PrintString("Your best games:");
+            io.PrintString("--- Your best games:");
             GetBestGames();
         }
 
         private void GetTopList()
         {
             List<(string, double)> topPlayers = dataIO.GetTopPlayers();
-
-            foreach (var (name, avgGuesses) in topPlayers)
-            {
-                io.PrintString($"Name: {name}, Average Guesses: {avgGuesses}");
-            }
+            menuUtils.PrintTopPlayers(topPlayers);
         }
 
         private void GetBestGames()
@@ -162,7 +164,7 @@ namespace CodeQuest.Game
             {
                 var gameName = topTenGames.ElementAt(i).GameName;
                 var guessCount = topTenGames.ElementAt(i).Guesses;
-                io.PrintString($"{i + 1}. {gameName}: {guessCount} guesses");
+                io.PrintString($"{i + 1}. {gameName.Trim()}: {guessCount} guesses");
             }
         }
     }
