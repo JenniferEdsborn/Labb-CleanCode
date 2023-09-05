@@ -20,11 +20,11 @@ namespace CodeQuest.Utilities
             }
         }
 
-        public void SubscribeToPlayerData(PlayerData newPlayerData)
+        public async void SubscribeToPlayerData(PlayerData newPlayerData)
         {
             newPlayerData.PlayerDataUpdated += PlayerDataUpdatedHandler;
             playerDataList.Add(newPlayerData);
-            SavePlayerDataList();
+            await SavePlayerDataList();
         }
 
         private void PlayerDataUpdatedHandler(PlayerData playerData)
@@ -54,7 +54,7 @@ namespace CodeQuest.Utilities
             return playerData;
         }
 
-        public void SavePlayerData(PlayerData playerDataToUpdate)
+        public async void SavePlayerData(PlayerData playerDataToUpdate)
         {
             if (playerDataList == null)
             {
@@ -71,10 +71,10 @@ namespace CodeQuest.Utilities
                 playerDataList.Add(playerDataToUpdate);
             }
 
-            SavePlayerDataList();
+            await SavePlayerDataList();
         }
 
-        private void SavePlayerDataList()
+        private async Task SavePlayerDataList()
         {
             string directoryPath = Path.GetDirectoryName(filePath);
 
@@ -84,8 +84,11 @@ namespace CodeQuest.Utilities
             }
 
             string jsonData = JsonSerializer.Serialize(playerDataList);
-            File.WriteAllText(filePath, jsonData);
-        }
+            using (StreamWriter writer = File.CreateText(filePath))
+            {
+                await writer.WriteAsync(jsonData);
+            }
+        } 
 
         private void LoadPlayerDataList()
         {
