@@ -74,7 +74,7 @@ namespace CodeQuest.Utilities
             await SavePlayerDataList();
         }
 
-        private async Task SavePlayerDataList()
+        public async Task SavePlayerDataList()
         {
             string directoryPath = Path.GetDirectoryName(filePath);
 
@@ -116,6 +116,21 @@ namespace CodeQuest.Utilities
                 .ToList();
 
             return topPlayers;
+        }
+
+        public async Task DeletePlayerData(string playerName)
+        {
+            if (playerDataList == null)
+            {
+                return;
+            }
+
+            int indexToRemove = playerDataList.FindIndex(data => data.Name == playerName);
+            if (indexToRemove != -1)
+            {
+                playerDataList.RemoveAt(indexToRemove);
+                await SavePlayerDataList();
+            }
         }
     }
 }
