@@ -55,6 +55,7 @@
         {
             return (double)NumberOfGuesses / NumberOfGames;
         }
+
         public string GetPlayerName()
         {
             return Name;
