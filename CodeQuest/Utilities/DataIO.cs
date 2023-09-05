@@ -20,11 +20,11 @@ namespace CodeQuest.Utilities
             }
         }
 
-        public void SubscribeToPlayerData(PlayerData newPlayerData)
+        public async void SubscribeToPlayerData(PlayerData newPlayerData)
         {
             newPlayerData.PlayerDataUpdated += PlayerDataUpdatedHandler;
             playerDataList.Add(newPlayerData);
-            SavePlayerDataList();
+            await SavePlayerDataList();
         }
 
         private void PlayerDataUpdatedHandler(PlayerData playerData)
