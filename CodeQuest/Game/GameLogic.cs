@@ -9,35 +9,48 @@ namespace CodeQuest.Game
     public class GameLogic : IGameLogic
     {
         private int guesses = 0;
+        private const string WinningFeedback = "BBBB";
 
         IGame game;
         IConsoleIO io;
+        IDataIO dataIO;
 
         PlayerData playerData;
         ErrorMessages errorMessages = new ErrorMessages();
+        MenuUtils menuUtils;
 
         public GameLogic(IGame game, IConsoleIO io, PlayerData playerData)
         {
             this.game = game;
             this.io = io;
             this.playerData = playerData;
+
+            dataIO = new DataIO();
+            menuUtils = new MenuUtils(io);
         }
 
         public void RunGameLoop()
         {
-            int magicNumber = game.GenerateMagicNumber();
-            int parsedUserGuess = 0;
+            string magicNumber = game.GenerateMagicNumber();
+            bool correctNumberGuessed = false;
 
-            while (parsedUserGuess != magicNumber)
+            io.PrintString($"Numret är: {magicNumber}");
+
+            while (!correctNumberGuessed)
             {
-                io.PrintString($"Numret är: {magicNumber}");
                 io.PrintPrompt();
                 string userGuess = io.GetUserInput();
+
                 if (CheckUserGuess(userGuess))
                 {
                     guesses++;
-                    parsedUserGuess = io.ConvertToInt(userGuess);
-                    io.PrintString(game.GenerateFeedback(userGuess, magicNumber));
+                    string feedback = game.GenerateFeedback(userGuess, magicNumber);
+                    io.PrintString(feedback);
+
+                    if (feedback == WinningFeedback)
+                    {
+                        correctNumberGuessed = true;
+                    }
                 }
                 else
                 {
@@ -63,14 +76,18 @@ namespace CodeQuest.Game
             playerData.UpdateGuesses(guesses);
             playerData.UpdateNumberOfGames();
             playerData.AddGameToScoreboard(game.GetGameName(), guesses);
+            playerData.UpdatePlayerData(playerData);
 
-            io.PrintString($"Your average amount of guesses are: {playerData.AverageGuesses()}.");
-            io.PrintString("Top List:");
+            io.PrintString($"user games: {playerData.NumberOfGames}");
+            io.PrintString($"user guesses: {playerData.NumberOfGuesses}");
 
+            io.PrintString($"--- Your average amount of guesses are: {playerData.AverageGuesses()}.");
+            io.PrintString("--- Top List:");
 
-            // PRINT TOPLIST (från DataIO + AverageGuesses-beräkning?)
+            List<(string, double)> topPlayers = dataIO.GetTopPlayers();
+            menuUtils.PrintTopPlayers(topPlayers);
 
-            this.guesses = 0;
+            guesses = 0;
 
             return;
         }

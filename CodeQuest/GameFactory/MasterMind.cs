@@ -3,7 +3,7 @@ using CodeQuest.Utilities;
 
 public class MasterMind : IGame
 {
-    public int GenerateMagicNumber()
+    public string GenerateMagicNumber()
     {
         Random randomGenerator = new Random();
         string magicNumber = "";
@@ -12,8 +12,7 @@ public class MasterMind : IGame
             int randomDigit = randomGenerator.Next(6);
             magicNumber += randomDigit.ToString();
         }
-        int parsedMagicNumber = int.Parse(magicNumber);
-        return parsedMagicNumber;
+        return magicNumber;
     }
 
     public bool IsValidInput(string userGuess)
@@ -21,14 +20,13 @@ public class MasterMind : IGame
         return userGuess.Length == 4;
     }
 
-    public string GenerateFeedback(string userGuess, int magicNumber)
+    public string GenerateFeedback(string magicNumber, string userGuess)
     {
-        string _magicNumber = magicNumber.ToString();
         char[] feedback = new char[4];
 
         for (int i = 0; i < 4; i++)
         {
-            if (_magicNumber[i] == userGuess[i])
+            if (magicNumber[i] == userGuess[i])
             {
                 feedback[i] = 'B';
             }
@@ -48,7 +46,7 @@ public class MasterMind : IGame
                 if (feedback[j] != ',')
                     continue;
 
-                if (_magicNumber[i] == userGuess[j])
+                if (magicNumber[i] == userGuess[j])
                 {
                     feedback[j] = 'C';
                     break;

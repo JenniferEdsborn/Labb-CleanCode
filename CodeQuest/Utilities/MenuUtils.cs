@@ -38,5 +38,14 @@ namespace CodeQuest.Utilities
                 io.PrintString("Invalid input. Please enter a valid menu choice.");
             }
         }
+
+        public void PrintTopPlayers(List<(string, double)> topPlayers)
+        {
+            for (int i = 0; i < topPlayers.Count; i++)
+            {
+                var (name, avgGuesses) = topPlayers[i];
+                io.PrintString($"{i + 1}. {name} - {avgGuesses} average guesses");
+            }
+        }
     }
 }

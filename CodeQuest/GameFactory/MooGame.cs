@@ -2,54 +2,40 @@
 {
     public class MooGame : IGame
     {
-        public int GenerateMagicNumber()
+        public string GenerateMagicNumber()
         {
             Random randomGenerator = new Random();
             string magicNumber = "";
+            List<int> usedDigits = new List<int>();
+
             for (int i = 0; i < 4; i++)
             {
-                int random = randomGenerator.Next(10);
-                string randomDigit = "" + random;
-                while (magicNumber.Contains(randomDigit))
+                int random;
+                do
                 {
                     random = randomGenerator.Next(10);
-                    randomDigit = "" + random;
-                }
-                magicNumber = magicNumber + randomDigit;
+                } while (usedDigits.Contains(random));
+
+                usedDigits.Add(random);
+                magicNumber += random.ToString();
             }
-            int parsedMagicNumber = int.Parse(magicNumber);
-            return parsedMagicNumber;
+
+            return magicNumber;
         }
 
         public bool IsValidInput(string userGuess)
         {
-            if (userGuess.Length == 4 && HasUniqueCharacters(userGuess))
+            if (userGuess.Length == 4)
                 return true; return false;
         }
 
-        private bool HasUniqueCharacters(string userGuess)
+        public string GenerateFeedback(string userGuess, string magicNumber)
         {
-            HashSet<char> uniqueCharacters = new HashSet<char>();
-
-            foreach (char c in userGuess)
-            {
-                if (uniqueCharacters.Contains(c))
-                {
-                    return false;
-                }
-                uniqueCharacters.Add(c);
-            }
-            return true;
-        }
-
-        public string GenerateFeedback(string userGuess, int magicNumber)
-        {
-            string _magicNumber = magicNumber.ToString();
             char[] feedback = new char[4];
 
             for (int i = 0; i < 4; i++)
             {
-                if (_magicNumber[i] == userGuess[i])
+                if (magicNumber[i] == userGuess[i])
                 {
                     feedback[i] = 'B';
                 }
@@ -69,7 +55,7 @@
                     if (feedback[j] != ',')
                         continue;
 
-                    if (_magicNumber[i] == userGuess[j])
+                    if (magicNumber[i] == userGuess[j])
                     {
                         feedback[j] = 'C';
                         break;

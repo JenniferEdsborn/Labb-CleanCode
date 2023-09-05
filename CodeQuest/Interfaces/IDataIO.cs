@@ -1,11 +1,13 @@
-﻿namespace CodeQuest.Interfaces
+﻿using CodeQuest.Player;
+
+namespace CodeQuest.Interfaces
 {
     public interface IDataIO
     {
-        public void AssessPlayerData();
-
-        public void LoadPlayerData();
-
-        public void SavePlayerData();
+        List<string> GetPlayerNames();
+        List<(string Name, double AverageGuesses)> GetTopPlayers();
+        PlayerData LoadPlayerData(string playerName);
+        Task SavePlayerData(PlayerData playerDataToUpdate);
+        void SubscribeToPlayerData(PlayerData newPlayerData);
     }
 }
