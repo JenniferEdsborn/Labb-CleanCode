@@ -21,9 +21,3 @@ class Program
         menuController.DisplayMenu();
     }
 }
-
-// LÄGGA IN ETT NYTT SPEL
-// Skapa en factory för spelet (class GameName, samt class GameNameFactory) i mappen GameFactory, ärv från korrekt interfaces
-// Instansiera interface för spelet i Program.cs
-// Lägg till spelet i MainMenu constructor, samt i GameChoice()-metoden
-// Klar!

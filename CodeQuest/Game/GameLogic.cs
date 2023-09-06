@@ -36,7 +36,7 @@ namespace CodeQuest.Game
             bool correctNumberGuessed = false;
 
             io.PrintString("Guess the magic number!");
-            io.PrintString($"Correct number: {magicNumber}");
+            io.PrintString($"For testing purposes, the correct number is: {magicNumber}");
 
             while (!correctNumberGuessed)
             {
